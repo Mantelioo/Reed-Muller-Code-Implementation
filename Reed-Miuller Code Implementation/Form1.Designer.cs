@@ -38,6 +38,7 @@ namespace Reed_Miuller_Code_Implementation
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.bntTest = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.SuspendLayout();
@@ -68,6 +69,7 @@ namespace Reed_Miuller_Code_Implementation
             this.txtMatrix.Multiline = true;
             this.txtMatrix.Name = "txtMatrix";
             this.txtMatrix.ReadOnly = true;
+            this.txtMatrix.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtMatrix.Size = new System.Drawing.Size(587, 198);
             this.txtMatrix.TabIndex = 2;
             // 
@@ -122,11 +124,22 @@ namespace Reed_Miuller_Code_Implementation
             this.numericUpDown2.Size = new System.Drawing.Size(52, 26);
             this.numericUpDown2.TabIndex = 9;
             // 
+            // bntTest
+            // 
+            this.bntTest.Location = new System.Drawing.Point(11, 431);
+            this.bntTest.Name = "bntTest";
+            this.bntTest.Size = new System.Drawing.Size(141, 35);
+            this.bntTest.TabIndex = 10;
+            this.bntTest.Text = "Test";
+            this.bntTest.UseVisualStyleBackColor = true;
+            this.bntTest.Click += new System.EventHandler(this.bntTest_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(625, 563);
+            this.Controls.Add(this.bntTest);
             this.Controls.Add(this.numericUpDown2);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -159,6 +172,7 @@ namespace Reed_Miuller_Code_Implementation
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.Button bntTest;
     }
 }
 

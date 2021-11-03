@@ -88,11 +88,24 @@ namespace Reed_Miuller_Code_Implementation
                 }
             }
 
-
-            //////////////////////////////////////////////////////
-            //////////////////////////////////////////////////////
             if (R > 1) //Creating binary matrix
             {
+                //Preparing the array for permution calculations
+                int[] tempArray = new int[M];
+                for (int i = 0; i < M; i++)
+                {
+                    tempArray[i] = i + 1;
+                }
+
+                //Geting the permutations
+                var result = HelperFunctions.GetPermutations(tempArray, R);
+
+                int currentRow = M + 1;
+                HelperFunctions.MultiplyMatrixRows(Matrix, result, M+1);
+
+
+                #region RandomSolutionFromNet
+                /*
                 for (int i = 0; i < Columns; i++)
                 {
                     string temp = Convert.ToString(i, 2); //to binary string
@@ -176,11 +189,9 @@ namespace Reed_Miuller_Code_Implementation
                 }
 
                 filteredMatrix.Insert(0, v0Line.ToString());
+             */
+                #endregion
             }
-            //////////////////////////////////////////////////////
-            //////////////////////////////////////////////////////
-
-
         }
     }
 }

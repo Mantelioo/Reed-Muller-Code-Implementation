@@ -45,5 +45,20 @@ namespace Reed_Miuller_Code_Implementation
                 txtMatrix.Text += item + Environment.NewLine;
             }
         }
+
+        private void bntTest_Click(object sender, EventArgs e)
+        {
+            int[] array = { 1, 2, 3 };
+            var result = HelperFunctions.GetPermutations(array, 2);
+
+            //Getting the tuples. Testing the permutation
+            foreach (var perm in result)
+            {
+                foreach (int c in perm)
+                {
+                    MessageBox.Show(c.ToString());
+                }
+            }
+        }
     }
 }
