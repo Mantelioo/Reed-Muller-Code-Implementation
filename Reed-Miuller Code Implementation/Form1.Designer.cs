@@ -33,12 +33,19 @@ namespace Reed_Miuller_Code_Implementation
             this.label1 = new System.Windows.Forms.Label();
             this.txtMatrix = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnEncodeVector = new System.Windows.Forms.Button();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.bntTest = new System.Windows.Forms.Button();
+            this.btnTunnel = new System.Windows.Forms.Button();
+            this.txtEncodedVector = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtDataFromTunnel = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.btnDecodeVector = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.SuspendLayout();
@@ -48,7 +55,7 @@ namespace Reed_Miuller_Code_Implementation
             this.txtData.Location = new System.Drawing.Point(12, 119);
             this.txtData.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtData.Name = "txtData";
-            this.txtData.Size = new System.Drawing.Size(587, 26);
+            this.txtData.Size = new System.Drawing.Size(318, 26);
             this.txtData.TabIndex = 0;
             // 
             // label1
@@ -70,7 +77,7 @@ namespace Reed_Miuller_Code_Implementation
             this.txtMatrix.Name = "txtMatrix";
             this.txtMatrix.ReadOnly = true;
             this.txtMatrix.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtMatrix.Size = new System.Drawing.Size(587, 198);
+            this.txtMatrix.Size = new System.Drawing.Size(318, 198);
             this.txtMatrix.TabIndex = 2;
             // 
             // label2
@@ -82,15 +89,15 @@ namespace Reed_Miuller_Code_Implementation
             this.label2.TabIndex = 3;
             this.label2.Text = "Matrix";
             // 
-            // button1
+            // btnEncodeVector
             // 
-            this.button1.Location = new System.Drawing.Point(11, 390);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(141, 35);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Encode Vector";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnEncodeVector.Location = new System.Drawing.Point(11, 390);
+            this.btnEncodeVector.Name = "btnEncodeVector";
+            this.btnEncodeVector.Size = new System.Drawing.Size(141, 35);
+            this.btnEncodeVector.TabIndex = 4;
+            this.btnEncodeVector.Text = "Encode vector";
+            this.btnEncodeVector.UseVisualStyleBackColor = true;
+            this.btnEncodeVector.Click += new System.EventHandler(this.btnEncodeVector_Click);
             // 
             // numericUpDown1
             // 
@@ -124,27 +131,95 @@ namespace Reed_Miuller_Code_Implementation
             this.numericUpDown2.Size = new System.Drawing.Size(52, 26);
             this.numericUpDown2.TabIndex = 9;
             // 
-            // bntTest
+            // btnTunnel
             // 
-            this.bntTest.Location = new System.Drawing.Point(11, 431);
-            this.bntTest.Name = "bntTest";
-            this.bntTest.Size = new System.Drawing.Size(141, 35);
-            this.bntTest.TabIndex = 10;
-            this.bntTest.Text = "Test";
-            this.bntTest.UseVisualStyleBackColor = true;
-            this.bntTest.Click += new System.EventHandler(this.bntTest_Click);
+            this.btnTunnel.Location = new System.Drawing.Point(11, 431);
+            this.btnTunnel.Name = "btnTunnel";
+            this.btnTunnel.Size = new System.Drawing.Size(141, 50);
+            this.btnTunnel.TabIndex = 11;
+            this.btnTunnel.Text = "Send through tunnel";
+            this.btnTunnel.UseVisualStyleBackColor = true;
+            this.btnTunnel.Click += new System.EventHandler(this.btnTunnel_Click);
+            // 
+            // txtEncodedVector
+            // 
+            this.txtEncodedVector.Location = new System.Drawing.Point(415, 45);
+            this.txtEncodedVector.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtEncodedVector.Name = "txtEncodedVector";
+            this.txtEncodedVector.Size = new System.Drawing.Size(248, 26);
+            this.txtEncodedVector.TabIndex = 12;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(411, 20);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(124, 20);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Encoded Vector";
+            // 
+            // txtDataFromTunnel
+            // 
+            this.txtDataFromTunnel.Location = new System.Drawing.Point(415, 119);
+            this.txtDataFromTunnel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtDataFromTunnel.Name = "txtDataFromTunnel";
+            this.txtDataFromTunnel.Size = new System.Drawing.Size(248, 26);
+            this.txtDataFromTunnel.TabIndex = 14;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(411, 89);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(128, 20);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "Data from tunnel";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(415, 195);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(248, 26);
+            this.textBox1.TabIndex = 16;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(411, 170);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(121, 20);
+            this.label7.TabIndex = 17;
+            this.label7.Text = "Decoded vector";
+            // 
+            // btnDecodeVector
+            // 
+            this.btnDecodeVector.Location = new System.Drawing.Point(189, 390);
+            this.btnDecodeVector.Name = "btnDecodeVector";
+            this.btnDecodeVector.Size = new System.Drawing.Size(141, 35);
+            this.btnDecodeVector.TabIndex = 18;
+            this.btnDecodeVector.Text = "Decode vector";
+            this.btnDecodeVector.UseVisualStyleBackColor = true;
+            this.btnDecodeVector.Click += new System.EventHandler(this.btnDecodeVector_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(625, 563);
-            this.Controls.Add(this.bntTest);
+            this.ClientSize = new System.Drawing.Size(863, 563);
+            this.Controls.Add(this.btnDecodeVector);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.txtDataFromTunnel);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.txtEncodedVector);
+            this.Controls.Add(this.btnTunnel);
             this.Controls.Add(this.numericUpDown2);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.numericUpDown1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnEncodeVector);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtMatrix);
             this.Controls.Add(this.label1);
@@ -167,12 +242,19 @@ namespace Reed_Miuller_Code_Implementation
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtMatrix;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnEncodeVector;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.Button bntTest;
+        private System.Windows.Forms.Button btnTunnel;
+        private System.Windows.Forms.TextBox txtEncodedVector;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtDataFromTunnel;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button btnDecodeVector;
     }
 }
 

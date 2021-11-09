@@ -43,9 +43,6 @@ namespace Reed_Miuller_Code_Implementation
         //This gets the permutations of all the elements in the array or list
         public static IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> items, int count)
         {
-
-
-
             int i = 0;
             foreach (var item in items)
             {

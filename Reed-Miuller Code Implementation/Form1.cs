@@ -15,11 +15,18 @@ namespace Reed_Miuller_Code_Implementation
     {
         //kintamasis pradiniam vektoriui saugoti.
         string initialVector = string.Empty;
+        string dataFromTunnel = string.Empty;
         ReedMuller rm = new ReedMuller(3, 2);
+
 
         public Form1()
         {
             InitializeComponent();
+            List<int>  list1 = new List<int>() { 2,3 };
+            List<int>  list2 = new List<int>() { 1,2,3 };
+
+            int a = 2;
+            MessageBox.Show(Convert.ToString(a, 2));
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -39,11 +46,7 @@ namespace Reed_Miuller_Code_Implementation
 
         private void button1_Click(object sender, EventArgs e)
         {
-            txtMatrix.Text += Environment.NewLine;
-            foreach (var item in rm.filteredMatrix)
-            {
-                txtMatrix.Text += item + Environment.NewLine;
-            }
+
         }
 
         private void bntTest_Click(object sender, EventArgs e)
@@ -59,6 +62,23 @@ namespace Reed_Miuller_Code_Implementation
                     MessageBox.Show(c.ToString());
                 }
             }
+        }
+
+        private void btnTunnel_Click(object sender, EventArgs e)
+        {
+            txtDataFromTunnel.Text = rm.SendTunnel(initialVector, 4000);
+        }
+
+        private void btnEncodeVector_Click(object sender, EventArgs e)
+        {
+            initialVector = txtData.Text;
+            initialVector = rm.EncodeVector(initialVector);
+            txtEncodedVector.Text = initialVector;
+        }
+
+        private void btnDecodeVector_Click(object sender, EventArgs e)
+        {
+            rm.DecodeVector(txtDataFromTunnel.Text);
         }
     }
 }
