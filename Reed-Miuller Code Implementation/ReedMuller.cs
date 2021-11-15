@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Reed_Miuller_Code_Implementation
 {
@@ -56,6 +55,7 @@ namespace Reed_Miuller_Code_Implementation
                 rowCount += M; //How many base V vectors (V1, V2, V3 ... Vn)
             }
 
+            //How many rows?
             for (int i = 2; i <= R; i++)
             {
                 rowCount += HelperFunctions.Combination(M, i);
@@ -155,75 +155,217 @@ namespace Reed_Miuller_Code_Implementation
         //Decoding information
         public string DecodeVector(string tunneledVector)
         {
+            tunneledVector = "11111111";
             //Initial variables
             int[] decodedVector = new int[Matrix.GetLength(0)];
             StringBuilder builder = new StringBuilder(tunneledVector);
-            int currentRow = Matrix.GetLength(0); //temp variable for saving row
+            int currRow = Matrix.GetLength(0);
 
             //Some lists for decoding parameters
-            List<int> lValues; // l1 = 2, etc.
-            List<int> tValues; //t=0, t=1, etc.
-            List<int> wValues; //11001100, 00110011 etc.
+            List<string> lValues = GetLValues(); // l1 = 2, etc.
+            List<string> tValues; //t=0, t=1, etc. t = 00, 01, 10, 11.
+            List<string> wValues; //11001100, 00110011 etc.
+            int lIndex = 0;
 
-            //R combinations
+            //R values
             for (int rValue = R; rValue > -1; rValue--) //R, R-1, R-2 ... 0
             {
                 int multiplications = HelperFunctions.Combination(M, rValue); //How many multiplications will be performed?
-                currentRow -= multiplications;
-
+                currRow -= multiplications;
+               
                 //Multiplications
                 for (int j = 0; j < multiplications; j++)
                 {
                     //Initializing lists
-                    lValues = GetLValues(); //receiving lValues from seperate method
-                    tValues = new List<int>();
-                    wValues = new List<int>();
+                    tValues = new List<string>();
+                    wValues = new List<string>();
 
-                    StringBuilder tBuilder;
-
-                    int tSize = M - rValue; //M - R(decremented)
-                    int wSize = (int)Math.Pow(2, tSize); //2^ tSIze
-
-                    for (int i = 0; i < wSize; i++)
+                    if (lValues.Any()) //if there are any elements in the list
                     {
-                       // tBuilder = new StringBuilder(Convert.ToInt32(i, 2);
+                        int tLength = lValues[lIndex].Length; //M - R(decremented)
+                        int wCounter = (int)Math.Pow(2, tLength); //2^ tSIze. How many wVectors?
 
-                        //while (tBuilder.Length < tSize)
-                        //{
-                        //    tBuilder.Insert(0, "0");
+                        //Building the t vectors
+                        for (int t = 0; t < wCounter; t++) //until we reach the required length
+                        {
+                            StringBuilder tBuilder = new StringBuilder(Convert.ToString(t, 2)); //binary
+                            while (tBuilder.Length < tLength)
+                            {
+                                tBuilder.Insert(0, '0'); //adding zeros if needed
+                            }
+                            tValues.Add(tBuilder.ToString()); //adding generated value to the list
+                        }
 
-                        //}
+                        //Building w vectors
+                        for (int w = 0; w < wCounter; w++)
+                        {
+                            StringBuilder wVector = new StringBuilder();
+                            string currentTValue = tValues[w];
+
+                            bool correct = true;
+                            int currentLValue;
+
+                            foreach (var aVector in aWords) //iterating thorugh the aWords
+                            {
+                                for (int i = 0; i < lValues[lIndex].Length; i++) //iterating through the l values
+                                {
+                                    currentLValue = Convert.ToInt32(lValues[lIndex].ElementAt(i).ToString()); //converting to number
+
+                                    //Now checking the vector positions t=0, l=1 11110000 when m=3, r=2
+                                    if (aVector[currentLValue - 1] != currentTValue[i]) //index -1 since counter starts from 0.
+                                    {
+                                        correct = false;
+                                    }
+
+                                }
+                                if (correct) //found the position
+                                {
+                                    wVector.Append("1");
+                                }
+                                else //any other case returns 0
+                                {
+                                    wVector.Append("0");
+                                    correct = true;
+                                }
+                            }
+                            wValues.Add(wVector.ToString());
+                        }
+
+                        //Initial vector * w vectors
+                        //1111111 * 11110000
+                        int[] decoding = new int[wCounter];
+                        for (int index = 0; index < decoding.Length; index++)
+                        {
+                            string currentW = wValues[index];
+                            int sumDecoded = 0;
+
+                            //now calculating decoded sum
+                            for (int i = 0; i < Matrix.GetLength(0); i++) //columns
+                            {
+                                sumDecoded += Convert.ToInt32(currentW.ElementAt(i).ToString()) * Convert.ToInt32(tunneledVector[i].ToString());
+                            }
+                            sumDecoded %= 2; // we use binary
+                            decoding[index] = sumDecoded;
+                        }
+
+                        //Now checking the number of 1 and 0. We will use the majority logic here.
+                        int one = 0, zero = 0;
+                        foreach (var item in decoding)
+                        {
+                            if (item == 1)
+                            {
+                                one++;
+                            }
+                            else
+                            {
+                                zero++;
+                            }
+                        } //How many 1 and 0?
+
+                        if (one > zero)
+                        {
+                            decodedVector[currRow + rValue] = 1;
+                        }
+                        else if (one < zero)
+                        {
+                            decodedVector[currRow + rValue] = 0;
+                        }
+                        else //If the number of 1 and 0 is equal, we cannot determine if mistake was made.
+                        {
+                            decodedVector[currRow + rValue] = 0;
+                        }
+                        lValues.RemoveAt(0);
+                        
+                    }
+                                       
+                }
+
+                //Last multiplication lines
+                if (rValue > 0)
+                {
+                    StringBuilder subBuilder = new StringBuilder();
+                    int[] subArray = new int[aWords.Length];
+                    bool isEmpty = true;
+
+                    for (int i = currRow; i < currRow + multiplications; i++)
+                    {
+                        if (decodedVector[i] >= 1)
+                        {
+                            if (isEmpty)
+                            {
+                                for (int j = 0; j < aWords.Length; j++)
+                                {
+                                    subArray[j] = Matrix[i, j];
+                                }
+                                isEmpty = false;
+                            }
+                        }
+                        else
+                        {
+                            for (int j = 0; j < aWords.Length; j++)
+                            {
+                                subArray[j] = (subArray[j] + Matrix[i, j]) % 2;
+                            }
+                        }
+                    }
+
+                    foreach (var item in subArray)
+                    {
+                        subBuilder.Append(item.ToString());
+                    }
+
+                    int[] tempArray = new int[aWords.Length];
+
+                    for (int j = 0; j < aWords.Length; j++)
+                    {
+                        tempArray[j] = Convert.ToInt32(subArray[j].ToString()) + Convert.ToInt32(builder[j].ToString());
+                        tempArray[j] %= 2; //binary
+                        builder[j] = Convert.ToChar(tempArray[j].ToString());
                     }
                 }
+
+
             }
-            return "";
+
+            StringBuilder finalBuilder = new StringBuilder();
+            foreach (var item in decodedVector)
+            {
+                finalBuilder.Append(item);
+            }
+            System.Windows.Forms.MessageBox.Show(finalBuilder.ToString());
+            return finalBuilder.ToString();
         }
 
-        private List<int> GetLValues()
+        //Funtions that gets all of the lValues
+        private List<string> GetLValues()
         {
-            List<int> lValues = new List<int>();
+            List<string> lValues = new List<string>();
+            List<int> temp = new List<int>();
 
-            //We will need the permutations to find lValues
+            //As before, building an array for permutations
             int[] tempArray = new int[M];
             for (int i = 0; i < M; i++)
             {
                 tempArray[i] = i + 1;
             }
-            var result = HelperFunctions.GetPermutations(tempArray, 2);
 
-            //Searching for lValues from the end of the Matrix
-            for (int i = result.Count() - 1; i > -1; i--)
+
+            for (int currR = R; currR > 0; currR--) //getting all of the permuations
             {
-                List<int> tempList = new List<int>();
-                foreach (var item in result.ElementAt(i))
+                var result = HelperFunctions.GetPermutations(tempArray, currR);
+                string a = "";
+                for (int i = result.Count() - 1; i >= 0; i--)
                 {
-                    tempList.Add(item);
+                    //using except {1 2 3}/{2,3} = {1}
+                    List<int> tempList = tempArray.Except(result.ElementAt(i)).ToList();
+                    foreach (var item in tempList)
+                    {
+                        a += item;
+                    }
+                    lValues.Add(a); //building a string
+                    a = string.Empty;
                 }
-                var exceptElements = tempArray.Except(tempList); // {2,3} and {1, 2, 3} returns 1
-                foreach (var item in exceptElements)
-                {
-                    lValues.Add(item);
-                }
+
             }
             return lValues;
         }

@@ -26,7 +26,7 @@ namespace Reed_Miuller_Code_Implementation
             List<int>  list2 = new List<int>() { 1,2,3 };
 
             int a = 2;
-            MessageBox.Show(Convert.ToString(a, 2));
+            
         }
 
         private void Form1_Load(object sender, EventArgs e)

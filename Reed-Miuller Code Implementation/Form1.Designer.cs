@@ -55,7 +55,7 @@ namespace Reed_Miuller_Code_Implementation
             this.txtData.Location = new System.Drawing.Point(12, 119);
             this.txtData.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtData.Name = "txtData";
-            this.txtData.Size = new System.Drawing.Size(318, 26);
+            this.txtData.Size = new System.Drawing.Size(318, 30);
             this.txtData.TabIndex = 0;
             // 
             // label1
@@ -65,7 +65,7 @@ namespace Reed_Miuller_Code_Implementation
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label1.Size = new System.Drawing.Size(78, 20);
+            this.label1.Size = new System.Drawing.Size(94, 25);
             this.label1.TabIndex = 1;
             this.label1.Text = "Enter text";
             // 
@@ -85,7 +85,7 @@ namespace Reed_Miuller_Code_Implementation
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 159);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(51, 20);
+            this.label2.Size = new System.Drawing.Size(65, 25);
             this.label2.TabIndex = 3;
             this.label2.Text = "Matrix";
             // 
@@ -103,7 +103,7 @@ namespace Reed_Miuller_Code_Implementation
             // 
             this.numericUpDown1.Location = new System.Drawing.Point(12, 45);
             this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(52, 26);
+            this.numericUpDown1.Size = new System.Drawing.Size(52, 30);
             this.numericUpDown1.TabIndex = 5;
             // 
             // label3
@@ -111,7 +111,7 @@ namespace Reed_Miuller_Code_Implementation
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(13, 22);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(22, 20);
+            this.label3.Size = new System.Drawing.Size(29, 25);
             this.label3.TabIndex = 6;
             this.label3.Text = "M";
             // 
@@ -120,7 +120,7 @@ namespace Reed_Miuller_Code_Implementation
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(69, 22);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(21, 20);
+            this.label4.Size = new System.Drawing.Size(25, 25);
             this.label4.TabIndex = 8;
             this.label4.Text = "R";
             // 
@@ -128,14 +128,14 @@ namespace Reed_Miuller_Code_Implementation
             // 
             this.numericUpDown2.Location = new System.Drawing.Point(70, 45);
             this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(52, 26);
+            this.numericUpDown2.Size = new System.Drawing.Size(52, 30);
             this.numericUpDown2.TabIndex = 9;
             // 
             // btnTunnel
             // 
             this.btnTunnel.Location = new System.Drawing.Point(11, 431);
             this.btnTunnel.Name = "btnTunnel";
-            this.btnTunnel.Size = new System.Drawing.Size(141, 50);
+            this.btnTunnel.Size = new System.Drawing.Size(141, 58);
             this.btnTunnel.TabIndex = 11;
             this.btnTunnel.Text = "Send through tunnel";
             this.btnTunnel.UseVisualStyleBackColor = true;
@@ -146,7 +146,7 @@ namespace Reed_Miuller_Code_Implementation
             this.txtEncodedVector.Location = new System.Drawing.Point(415, 45);
             this.txtEncodedVector.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtEncodedVector.Name = "txtEncodedVector";
-            this.txtEncodedVector.Size = new System.Drawing.Size(248, 26);
+            this.txtEncodedVector.Size = new System.Drawing.Size(248, 30);
             this.txtEncodedVector.TabIndex = 12;
             // 
             // label5
@@ -154,7 +154,7 @@ namespace Reed_Miuller_Code_Implementation
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(411, 20);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(124, 20);
+            this.label5.Size = new System.Drawing.Size(152, 25);
             this.label5.TabIndex = 13;
             this.label5.Text = "Encoded Vector";
             // 
@@ -163,7 +163,7 @@ namespace Reed_Miuller_Code_Implementation
             this.txtDataFromTunnel.Location = new System.Drawing.Point(415, 119);
             this.txtDataFromTunnel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtDataFromTunnel.Name = "txtDataFromTunnel";
-            this.txtDataFromTunnel.Size = new System.Drawing.Size(248, 26);
+            this.txtDataFromTunnel.Size = new System.Drawing.Size(248, 30);
             this.txtDataFromTunnel.TabIndex = 14;
             // 
             // label6
@@ -171,7 +171,7 @@ namespace Reed_Miuller_Code_Implementation
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(411, 89);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(128, 20);
+            this.label6.Size = new System.Drawing.Size(154, 25);
             this.label6.TabIndex = 15;
             this.label6.Text = "Data from tunnel";
             // 
@@ -180,7 +180,7 @@ namespace Reed_Miuller_Code_Implementation
             this.textBox1.Location = new System.Drawing.Point(415, 195);
             this.textBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(248, 26);
+            this.textBox1.Size = new System.Drawing.Size(248, 30);
             this.textBox1.TabIndex = 16;
             // 
             // label7
@@ -188,7 +188,7 @@ namespace Reed_Miuller_Code_Implementation
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(411, 170);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(121, 20);
+            this.label7.Size = new System.Drawing.Size(149, 25);
             this.label7.TabIndex = 17;
             this.label7.Text = "Decoded vector";
             // 
@@ -204,7 +204,7 @@ namespace Reed_Miuller_Code_Implementation
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(863, 563);
             this.Controls.Add(this.btnDecodeVector);
