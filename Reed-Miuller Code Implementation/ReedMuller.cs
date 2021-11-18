@@ -155,7 +155,7 @@ namespace Reed_Miuller_Code_Implementation
         //Decoding information
         public string DecodeVector(string tunneledVector)
         {
-            tunneledVector = "11111111";
+            tunneledVector = "01110111";
             //Initial variables
             int[] decodedVector = new int[Matrix.GetLength(0)];
             StringBuilder builder = new StringBuilder(tunneledVector);
@@ -172,9 +172,9 @@ namespace Reed_Miuller_Code_Implementation
             {
                 int multiplications = HelperFunctions.Combination(M, rValue); //How many multiplications will be performed?
                 currRow -= multiplications;
-               
+
                 //Multiplications
-                for (int j = 0; j < multiplications; j++)
+                for (int j = multiplications-1; j > -1; j--)
                 {
                     //Initializing lists
                     tValues = new List<string>();
@@ -240,7 +240,7 @@ namespace Reed_Miuller_Code_Implementation
                             int sumDecoded = 0;
 
                             //now calculating decoded sum
-                            for (int i = 0; i < Matrix.GetLength(0); i++) //columns
+                            for (int i = 0; i < Matrix.GetLength(1); i++) //columns
                             {
                                 sumDecoded += Convert.ToInt32(currentW.ElementAt(i).ToString()) * Convert.ToInt32(tunneledVector[i].ToString());
                             }
@@ -264,65 +264,66 @@ namespace Reed_Miuller_Code_Implementation
 
                         if (one > zero)
                         {
-                            decodedVector[currRow + rValue] = 1;
+                            decodedVector[currRow + j] = 1;
                         }
                         else if (one < zero)
                         {
-                            decodedVector[currRow + rValue] = 0;
+                            decodedVector[currRow + j] = 0;
                         }
                         else //If the number of 1 and 0 is equal, we cannot determine if mistake was made.
                         {
-                            decodedVector[currRow + rValue] = 0;
+                            decodedVector[currRow + j] = 0;
                         }
                         lValues.RemoveAt(0);
-                        
+
                     }
-                                       
+
                 }
+
 
                 //Last multiplication lines
-                if (rValue > 0)
-                {
-                    StringBuilder subBuilder = new StringBuilder();
-                    int[] subArray = new int[aWords.Length];
-                    bool isEmpty = true;
+                //if (rValue > 0)
+                //{
+                //    StringBuilder subBuilder = new StringBuilder();
+                //    int[] subArray = new int[aWords.Length];
+                //    bool isEmpty = true;
 
-                    for (int i = currRow; i < currRow + multiplications; i++)
-                    {
-                        if (decodedVector[i] >= 1)
-                        {
-                            if (isEmpty)
-                            {
-                                for (int j = 0; j < aWords.Length; j++)
-                                {
-                                    subArray[j] = Matrix[i, j];
-                                }
-                                isEmpty = false;
-                            }
-                        }
-                        else
-                        {
-                            for (int j = 0; j < aWords.Length; j++)
-                            {
-                                subArray[j] = (subArray[j] + Matrix[i, j]) % 2;
-                            }
-                        }
-                    }
+                //    for (int i = currRow; i < currRow + multiplications; i++)
+                //    {
+                //        if (decodedVector[i] >= 1)
+                //        {
+                //            if (isEmpty)
+                //            {
+                //                for (int j = 0; j < aWords.Length; j++)
+                //                {
+                //                    subArray[j] = Matrix[i, j];
+                //                }
+                //                isEmpty = false;
+                //            }
+                //            else
+                //            {
+                //                for (int j = 0; j < aWords.Length; j++)
+                //                {
+                //                    subArray[j] = (subArray[j] + Matrix[i, j]) % 2;
+                //                }
+                //            }
+                //        }
+                //    }
 
-                    foreach (var item in subArray)
-                    {
-                        subBuilder.Append(item.ToString());
-                    }
+                //    foreach (var item in subArray)
+                //    {
+                //        subBuilder.Append(item.ToString());
+                //    }
 
-                    int[] tempArray = new int[aWords.Length];
+                //    int[] tempArray = new int[aWords.Length];
 
-                    for (int j = 0; j < aWords.Length; j++)
-                    {
-                        tempArray[j] = Convert.ToInt32(subArray[j].ToString()) + Convert.ToInt32(builder[j].ToString());
-                        tempArray[j] %= 2; //binary
-                        builder[j] = Convert.ToChar(tempArray[j].ToString());
-                    }
-                }
+                //    for (int j = 0; j < aWords.Length; j++)
+                //    {
+                //        tempArray[j] = Convert.ToInt32(subArray[j].ToString()) + Convert.ToInt32(subBuilder[j].ToString());
+                //        tempArray[j] %= 2; //binary
+                //        builder[j] = Convert.ToChar(tempArray[j].ToString());
+                //    }
+                //}
 
 
             }
@@ -365,8 +366,14 @@ namespace Reed_Miuller_Code_Implementation
                     lValues.Add(a); //building a string
                     a = string.Empty;
                 }
-
             }
+            string elementAt0 = "";
+            foreach (var item in tempArray)
+            {
+                elementAt0 += item;
+            }
+            lValues.Add(elementAt0);// {1,2,3} >> "123"
+
             return lValues;
         }
     }
