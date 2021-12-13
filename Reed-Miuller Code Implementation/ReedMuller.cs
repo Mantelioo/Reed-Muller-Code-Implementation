@@ -14,7 +14,6 @@ namespace Reed_Miuller_Code_Implementation
         public int[,] Matrix { get; private set; } // v vectors. Saving the whole matrix
 
 
-
         public ReedMuller(int m, int r)
         {
             this.R = r;
@@ -99,6 +98,10 @@ namespace Reed_Miuller_Code_Implementation
 
                 //Geting the permutations
                 var result = HelperFunctions.GetPermutations(tempArray, R); //getting all of the rows permutations
+                for (int i = 3; i <= R; i++)
+                {
+                    result = result.Concat(HelperFunctions.GetPermutations(tempArray, i));
+                }
 
                 //Multiplying the rows and adding them to the matrix
                 HelperFunctions.MultiplyMatrixRows(Matrix, result, M + 1); //multiplying the rows
@@ -106,14 +109,13 @@ namespace Reed_Miuller_Code_Implementation
         }
 
         //Sends encoded vector via tunnel
-        public string SendTunnel(string encodedVector, int probability)
+        public string SendTunnel(string encodedVector, int probability, bool print)
         {
             StringBuilder builder = new StringBuilder();
             Random rnd = new Random();
             int errors = 0;
             int temp = 0;
 
-            System.Windows.Forms.MessageBox.Show("Errors were made at: ");
             for (int i = 0; i < encodedVector.Length; i++) //iterating through the vector
             {
                 if (probability > rnd.Next(0, 10000))
@@ -121,7 +123,6 @@ namespace Reed_Miuller_Code_Implementation
                     temp = Convert.ToInt32(encodedVector[i]); //changing the value
                     temp = (temp + 1) % 2; //we use binary
                     builder.Append(temp);
-                    System.Windows.Forms.MessageBox.Show($"{temp} ");
                     errors++;
                 }
                 else //just add the initial vector
@@ -144,7 +145,7 @@ namespace Reed_Miuller_Code_Implementation
                 int calculations = 0;
                 for (int j = 0; j < Matrix.GetLength(0); j++) //rows
                 {
-                    calculations += Matrix[j, i] * Convert.ToInt32(vector[j]);
+                    calculations += Matrix[j, i] * Convert.ToInt32(vector[j].ToString());
                 }
                 calculations %= 2; //since we use binary
                 builder.Append(calculations);
@@ -152,10 +153,11 @@ namespace Reed_Miuller_Code_Implementation
             return builder.ToString();
         }
 
-        //Decoding information
+        //Decoding vector. Vector is a text of bits 1000001 for example
+        //Returns Decoded string
         public string DecodeVector(string tunneledVector)
         {
-            tunneledVector = "01110111";
+            //tunneledVector = "01110111";
             //Initial variables
             int[] decodedVector = new int[Matrix.GetLength(0)];
             StringBuilder builder = new StringBuilder(tunneledVector);
@@ -174,7 +176,7 @@ namespace Reed_Miuller_Code_Implementation
                 currRow -= multiplications;
 
                 //Multiplications
-                for (int j = multiplications-1; j > -1; j--)
+                for (int j = multiplications - 1; j > -1; j--)
                 {
                     //Initializing lists
                     tValues = new List<string>();
@@ -275,57 +277,8 @@ namespace Reed_Miuller_Code_Implementation
                             decodedVector[currRow + j] = 0;
                         }
                         lValues.RemoveAt(0);
-
                     }
-
                 }
-
-
-                //Last multiplication lines
-                //if (rValue > 0)
-                //{
-                //    StringBuilder subBuilder = new StringBuilder();
-                //    int[] subArray = new int[aWords.Length];
-                //    bool isEmpty = true;
-
-                //    for (int i = currRow; i < currRow + multiplications; i++)
-                //    {
-                //        if (decodedVector[i] >= 1)
-                //        {
-                //            if (isEmpty)
-                //            {
-                //                for (int j = 0; j < aWords.Length; j++)
-                //                {
-                //                    subArray[j] = Matrix[i, j];
-                //                }
-                //                isEmpty = false;
-                //            }
-                //            else
-                //            {
-                //                for (int j = 0; j < aWords.Length; j++)
-                //                {
-                //                    subArray[j] = (subArray[j] + Matrix[i, j]) % 2;
-                //                }
-                //            }
-                //        }
-                //    }
-
-                //    foreach (var item in subArray)
-                //    {
-                //        subBuilder.Append(item.ToString());
-                //    }
-
-                //    int[] tempArray = new int[aWords.Length];
-
-                //    for (int j = 0; j < aWords.Length; j++)
-                //    {
-                //        tempArray[j] = Convert.ToInt32(subArray[j].ToString()) + Convert.ToInt32(subBuilder[j].ToString());
-                //        tempArray[j] %= 2; //binary
-                //        builder[j] = Convert.ToChar(tempArray[j].ToString());
-                //    }
-                //}
-
-
             }
 
             StringBuilder finalBuilder = new StringBuilder();
@@ -333,11 +286,10 @@ namespace Reed_Miuller_Code_Implementation
             {
                 finalBuilder.Append(item);
             }
-            System.Windows.Forms.MessageBox.Show(finalBuilder.ToString());
             return finalBuilder.ToString();
         }
 
-        //Funtions that gets all of the lValues
+        //Function that gets all of the lValues
         private List<string> GetLValues()
         {
             List<string> lValues = new List<string>();
@@ -375,6 +327,135 @@ namespace Reed_Miuller_Code_Implementation
             lValues.Add(elementAt0);// {1,2,3} >> "123"
 
             return lValues;
+        }
+
+
+        //Sends initial text through the tunnel. Encodes and decodes text
+        //Result will be seen in MessageBox fields.
+        public void EncodeDecodeText(string text, int probability)
+        {
+            StringBuilder vectors = new StringBuilder();
+            StringBuilder binaryString = new StringBuilder();
+            byte[] inputBytes = Encoding.ASCII.GetBytes(text);
+
+            //Converting to bits
+            foreach (var item in inputBytes)
+            {
+                int binaryNumber = item;
+                for (int i = 0; i < 8; i++)
+                {
+                    if ((binaryNumber & 128) == 0)
+                    {
+                        binaryString.Append(0);
+                    }
+                    else
+                    {
+                        binaryString.Append(1);
+                    }
+                    binaryNumber = binaryNumber << 1; //shifting to the left
+                }
+            }
+            vectors.Append(binaryString);
+
+            //Splitting the original text into Tunneled vectors
+            StringBuilder tunneledVector = new StringBuilder();
+            while (vectors.Length > 0)
+            {
+                if (vectors.Length > Matrix.GetLength(0)) //rows
+                {
+                    string substringTemp = vectors.ToString().Substring(0, Matrix.GetLength(0));
+                    tunneledVector.Append(SendTunnel(substringTemp, probability,false));
+                }
+                else
+                {
+                    string substringTemp = vectors.ToString().Substring(0, vectors.Length);
+                    tunneledVector.Append(SendTunnel(substringTemp, probability,false));
+                }
+
+                //Clearing the vector
+                if (vectors.Length < Matrix.GetLength(0))
+                {
+                    vectors.Remove(0, vectors.Length);
+                }
+                else
+                {
+                    vectors.Remove(0, Matrix.GetLength(0));
+                }
+            }
+
+
+            StringBuilder EncodedVector = new StringBuilder();
+            StringBuilder tempDecodedVector = new StringBuilder();
+            string tunneledString;
+            int additionalBits;
+
+            //Encoding vector chunks > Sending them through the tunnel > decoding vector chunks > printing message
+            while (true)
+            {
+                if (binaryString.Length >= Matrix.GetLength(0)) //encoding only 8 bits
+                {
+                    string substringTemp = binaryString.ToString().Substring(0, Matrix.GetLength(0));
+
+                    EncodedVector.Append(EncodeVector(substringTemp)); //appending encoded vector
+                    tunneledString = SendTunnel(EncodedVector.ToString(), probability,false); //sending via tunnel
+                    tempDecodedVector.Append(DecodeVector(tunneledString)); //decoding vector
+
+                    binaryString.Remove(0, Matrix.GetLength(0));
+                    EncodedVector.Clear();
+                }
+                else if (binaryString.Length > 0) //If additional bits needed
+                {
+                    additionalBits = Matrix.GetLength(0) - binaryString.Length; //how many needed?
+                    for (int i = 0; i < additionalBits; i++)
+                    {
+                        binaryString.Append("0"); //adding 0
+                    }
+                    string substringTemp = binaryString.ToString().Substring(0, Matrix.GetLength(0));
+
+                    EncodedVector.Append(EncodeVector(substringTemp)); //encoding
+                    tunneledString = SendTunnel(EncodedVector.ToString(), probability,false); //tunneling
+                    tempDecodedVector.Append(DecodeVector(tunneledString)); //decoding
+
+                    //Removing neccesary bits
+                    if (additionalBits > 0)
+                    {
+                        tempDecodedVector.Remove(tempDecodedVector.Length - additionalBits, additionalBits);
+                    }
+                    binaryString.Remove(0, Matrix.GetLength(0));
+                    EncodedVector.Clear();
+                    break;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            StringBuilder message = new StringBuilder();
+            //From not coded
+            while (tunneledVector.Length >= 8)
+            {
+                int asciiCode = Convert.ToInt32(tunneledVector.ToString().Substring(0, 8), 2);
+                char letter = (char)asciiCode;
+                message.Append(letter);
+                tunneledVector.Remove(0, 8); //removing byte
+            }
+
+
+            //From Decoded
+            while (tempDecodedVector.Length >= 8)
+            {
+                int asciiCode = Convert.ToInt32(tempDecodedVector.ToString().Substring(0, 8), 2);
+                char letter = (char)asciiCode;
+
+                binaryString.Append(letter);
+                tempDecodedVector.Remove(0, 8);
+            }
+            tempDecodedVector.Append(binaryString);
+
+            System.Windows.Forms.MessageBox.Show(message.ToString());
+            System.Windows.Forms.MessageBox.Show(tempDecodedVector.ToString());
+
         }
     }
 }
