@@ -40,6 +40,9 @@ namespace Reed_Miuller_Code_Implementation
         }
 
         //This gets the permutations of all the elements in the array or list
+        //Elementes in the colleciton must be unique
+
+        //{1,2,3} 2 > {1,2}, {1,3} {2,3}
         public static IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> items, int count)
         {
             int i = 0;

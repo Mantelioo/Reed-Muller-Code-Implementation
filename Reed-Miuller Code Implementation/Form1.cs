@@ -110,7 +110,7 @@ namespace Reed_Miuller_Code_Implementation
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            rm.EncodeDecodeText(textbox1.Text,(int)numericProbability.Value);
+           txtEncodedDecodedText.Text= rm.EncodeDecodeText(textbox1.Text,(int)numericProbability.Value);
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
@@ -139,12 +139,28 @@ namespace Reed_Miuller_Code_Implementation
 
             button1.Enabled = true;
             btnEncodeVector.Enabled = true;
+            btnTunnelString.Enabled = true;
             
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             timerValue++;
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnTunnelString_Click(object sender, EventArgs e)
+        {
+           txtTunneledString.Text= rm.TunneledString(textbox1.Text, (int)numericProbability.Value);
+        }
+
+        private void txtEncodedDecodedText_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
